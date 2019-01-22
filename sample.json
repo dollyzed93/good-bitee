@@ -1,0 +1,22 @@
+{
+  "mobile" : "+91933693337",
+  "fullName" : "kitchen2",
+  "startTime" : "10:00",
+  "endTime" : "23:00",
+  "addresses" : [
+          {
+                  "value" : "gopalpura bypass, ridhi sidhi, jaipur",
+                  "location" : {
+                          "lat" : 10,
+                          "lng" : 10
+                  }
+          }
+  ],
+  "range" : 10,
+  "description" : "testing kichen description 3",
+  "kitchenName" : "kichen for foodies 3",
+  "realm" : "kitchen",
+  "password" : "123456789",
+  "email" : "chef3@gmail.com",
+  "categoryIds" : ["5c35c44b25b0af099866db56" ]
+}

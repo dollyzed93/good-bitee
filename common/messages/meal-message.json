@@ -1,0 +1,10 @@
+{
+  "add": {
+    "replyCode": "success",
+    "replyMessage": "added a meal successfully"
+  },
+  "fetchedMeals": {
+    "replyCode": "success",
+    "replyMessage": "meals fetched successfully"
+  }
+}

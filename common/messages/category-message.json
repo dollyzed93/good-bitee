@@ -1,0 +1,22 @@
+{
+  "addCategory":{
+    "replyCode": "Success",
+    "replyMessage": "Successfully added a category!!"
+  },
+  "getCategories" : {
+  "replyCode":"Success",
+  "replyMessage":"Success"
+ },
+ "getCategory" : {
+  "replyCode":"Success",
+  "replyMessage":"Success"
+ },
+ "editCategory" : {
+  "replyCode":"Success",
+  "replyMessage":"Successfully updated!!"
+ },
+ "categoryDelete" : {
+  "replyCode":"Success",
+  "replyMessage":"Successfully deleted!!"
+ }
+}

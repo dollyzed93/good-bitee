@@ -1,0 +1,26 @@
+{
+  "logout": {
+    "replyCode": "success",
+    "replyMessages": "log out successfully"
+  },
+  "signup": {
+    "replyCode": "success",
+    "replyMessage": "sign up successfully"
+  },
+  "profileUpdated": {
+    "replycCode": "success",
+    "replyMessage": "profile has been updated successfully"
+  },
+  "adminApprove": {
+    "replyCode": "success",
+    "replyMessage": "Successfully done"
+  },
+  "getMyInfo": {
+    "replyCode": "success",
+    "replyMessage": "Profile fetched successfully"
+  },
+  "updateAddress": {
+    "replyCode": "success",
+    "replyMessage": "address updated successfully"
+  }
+}

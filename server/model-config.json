@@ -1,0 +1,84 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db1",
+    "options": {
+      "realmRequired": true,
+      "realmDelimiter": ":"
+    }
+  },
+  "AccessToken": {
+    "dataSource": "db1",
+    "public": false,
+    "relations": {
+      "people": {
+        "type": "belongsTo",
+        "model": "People",
+        "foreignKey": "userId"
+      }
+    }
+  },
+  "ACL": {
+    "dataSource": "db1",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db1",
+    "public": true,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "People": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "Categories": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "Container": {
+    "dataSource": "FileStorage",
+    "public": true
+  },
+  "Email": {
+    "dataSource": "Email"
+  },
+  "Menu": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "Wallet": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "Transaction": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "MealType": {
+    "dataSource": "db1",
+    "public": true
+  },
+  "Order": {
+    "dataSource": "db1",
+    "public": true
+  }
+}

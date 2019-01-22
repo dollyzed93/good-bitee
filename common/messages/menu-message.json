@@ -1,0 +1,22 @@
+{
+  "addFoodItem": {
+    "replyCode": "success",
+    "replyMessage": "food item added successfully"
+  },
+  "updateFoodItem": {
+    "replyCode": "success",
+    "replyMessage": "food item updated successfully"
+  },
+  "imageUpload": {
+    "replyCode": "success",
+    "replyMessage": "Image updated succesfully"
+  },
+  "getfoodItem": {
+    "replyCode": "success",
+    "replyMessage": "fetched successfully"
+  },
+  "getKitchenMenu": {
+    "replyCode": "success",
+    "replyMessage": "fetched successfully"
+  }
+}

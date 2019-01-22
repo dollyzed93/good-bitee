@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    image: good-bitee-app
+    restart: always
+    build: .
+    command: node .
+    ports:
+      - "2376:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"

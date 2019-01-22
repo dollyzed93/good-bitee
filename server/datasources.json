@@ -1,0 +1,38 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "db1": {
+    "database": "good-bitee",
+    "name": "db1",
+    "connector": "mongodb",
+    "useNewUrlParser": true,
+    "enableGeoIndexing": true,
+    "allowExtendedOperators": true
+  },
+  "FileStorage": {
+    "name": "FileStorage",
+    "connector": "loopback-component-storage",
+    "root": "server/storage",
+    "provider": "filesystem",
+    "maxFileSize": "10485760"
+  },
+  "Email": {
+    "name": "Email",
+    "connector": "mail",
+    "transport": {
+      "type": "smtp",
+      "host": "smtp.gmail.com",
+      "secure": true,
+      "port": 465,
+      "tls": {
+        "rejectUnauthorized": false
+      },
+      "auth": {
+        "user": "dolly@zedtechnosolutions.com",
+        "pass": "dolly@zed"
+      }
+    }
+  }
+}

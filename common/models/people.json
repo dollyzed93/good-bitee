@@ -1,0 +1,181 @@
+{
+  "name": "People",
+  "base": "User",
+  "strict": false,
+  "idInjection": true,
+  "indexes": {
+    "people_index": {
+      "keys": {
+        "email": 1,
+        "realm": 1,
+        "mobile": 1
+      }
+    }
+  },
+  "options": {
+    "validateUpsert": true,
+    "emailVerificationRequired": false,
+    "mobileVerificationRequired": false,
+    "realmRequired": true,
+    "caseSensitiveEmail": true
+  },
+  "excludeBaseProperties": [
+    "username"
+  ],
+  "properties": {
+    "mobile": {
+      "type": "string",
+      "required": true
+    },
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "isProfileComplete": {
+      "type": "boolean",
+      "default": true
+    },
+    "startTime": {
+      "type": "object",
+      "default": {
+        "value": "00:00",
+        "valueInMinute": 0
+      }
+    },
+    "endTime": {
+      "type": "object",
+      "default": {
+        "value": "00:00",
+        "valueInMinute": 0
+      }
+    },
+    "addresses": {
+      "type": [
+        "object"
+      ],
+      "default": []
+    },
+    "address": {
+      "type": "string",
+      "default": ""
+    },
+    "image": {
+      "type": "string",
+      "default": ""
+    },
+    "range": {
+      "type": "number",
+      "default": 10
+    },
+    "workingDays": {
+      "type": [
+        "number"
+      ]
+    },
+    "mobileVerfified": {
+      "type": "boolean",
+      "default": false
+    },
+    "kitchenName": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "default": true
+    },
+    "rating": {
+      "type": "object",
+      "default": {
+        "totalUsers": 0,
+        "totalRating": 0,
+        "avgRating": 0
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "category": {
+      "type": "referencesMany",
+      "model": "Categories",
+      "foreignKey": "categoryIds",
+      "options": {
+        "validate": true,
+        "forceId": false
+      }
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "Order",
+      "foreignKey": "",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "addToLogin"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "logOut"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "signup"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "kitchen",
+      "permission": "ALLOW",
+      "property": "addDeliveryBoy"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "adminApprove"
+    }
+  ],
+  "methods": {}
+}

@@ -1,0 +1,91 @@
+{
+  "name": "Menu",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "amount": {
+      "type": "number",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "discount": {
+      "type": "number"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "veg",
+        "nonveg"
+      ]
+    },
+    "image": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "validations": [],
+  "relations": {
+    "categories": {
+      "type": "referencesMany",
+      "model": "Categories",
+      "foreignKey": "categoryId",
+      "options": {
+        "validate": true,
+        "forceId": false
+      }
+    },
+    "mealType": {
+      "type": "referencesMany",
+      "model": "MealType",
+      "foreignKey": "mealTypeId",
+      "options": {
+        "validate": true,
+        "forceId": false
+      }
+    },
+    "kitchen": {
+      "type": "belongsTo",
+      "model": "People",
+      "foreignKey": "kitchenId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "kitchen",
+      "permission": "ALLOW",
+      "property": "addFoodItem"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "foodItemById"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getKitchenMenu"
+    }
+  ],
+  "methods": {}
+}
