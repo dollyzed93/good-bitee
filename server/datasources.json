@@ -5,7 +5,6 @@
   },
   "db1": {
     "database": "good-bitee",
-    "host": "mongo",
     "name": "db1",
     "connector": "mongodb",
     "useNewUrlParser": true,
