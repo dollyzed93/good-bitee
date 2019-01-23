@@ -21,7 +21,13 @@
     "connector": "mongodb",
     "useNewUrlParser": true,
     "enableGeoIndexing": true,
-    "allowExtendedOperators": true
+    "allowExtendedOperators": true,
+    "server": {
+      "auto_reconnect": true,
+      "autoReconnect": true,
+      "reconnectTries": 2000,
+      "reconnectInterval": 1000
+    }
   },
   "FileStorage": {
     "name": "FileStorage",
