@@ -493,7 +493,7 @@ module.exports = function(People) {
       },
     ],
     returns: {
-      arg: 'success', type: 'object', root: true,
+      arg: 'success', type: 'object',
     },
     http: {verb: 'post', path: '/add_to_login'},
   });
