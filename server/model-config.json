@@ -37,9 +37,9 @@
   },
   "RoleMapping": {
     "dataSource": "dbHeroku",
-    "public": true,
+    "public": false,
     "options": {
-      "strictObjectIDCoercion": false
+      "strictObjectIDCoercion": true
     }
   },
   "Role": {
