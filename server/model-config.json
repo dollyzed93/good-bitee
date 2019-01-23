@@ -39,12 +39,12 @@
     "dataSource": "dbHeroku",
     "public": true,
     "options": {
-      "strictObjectIDCoercion": true
+      "strictObjectIDCoercion": false
     }
   },
   "Role": {
     "dataSource": "dbHeroku",
-    "public": true
+    "public": false
   },
   "People": {
     "dataSource": "dbHeroku",
