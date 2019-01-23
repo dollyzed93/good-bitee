@@ -5,6 +5,7 @@
   },
   "db1": {
     "database": "good-bitee",
+    "host": "mongo",
     "name": "db1",
     "connector": "mongodb",
     "useNewUrlParser": true,
@@ -12,11 +13,7 @@
     "allowExtendedOperators": true
   },
   "dbHeroku": {
-    "user": "heroku_zwmzc0j7",
-    "password": "avs1udt3ks61gg733gmrv12cp2",
-    "host": "ds111025.mlab.com",
-    "port": "11025",
-    "database": "heroku_zwmzc0j7",
+    "url": "mongodb://heroku_zwmzc0j7:avs1udt3ks61gg733gmrv12cp2@ds111025.mlab.com:11025/heroku_zwmzc0j7",
     "name": "dbHeroku",
     "connector": "mongodb",
     "useNewUrlParser": true,

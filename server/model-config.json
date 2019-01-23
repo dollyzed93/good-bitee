@@ -14,14 +14,14 @@
     ]
   },
   "User": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "options": {
       "realmRequired": true,
       "realmDelimiter": ":"
     }
   },
   "AccessToken": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": false,
     "relations": {
       "people": {
@@ -32,26 +32,26 @@
     }
   },
   "ACL": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "People": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "Categories": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "Container": {
@@ -62,23 +62,23 @@
     "dataSource": "Email"
   },
   "Menu": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "Wallet": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "Transaction": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "MealType": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   },
   "Order": {
-    "dataSource": "db1",
+    "dataSource": "dbHeroku",
     "public": true
   }
 }
