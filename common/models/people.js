@@ -465,7 +465,7 @@ module.exports = function(People) {
       People.findById(token.userId, function(findErr, user) {
         if (findErr) return cb(findErr, null);
         let obj = Object.assign({}, token.toObject(), {user: user});
-        return cb(null, obj);
+        return cb(null, {data: obj, msg: msg.login});
       });
     });
   };
@@ -493,7 +493,7 @@ module.exports = function(People) {
       },
     ],
     returns: {
-      arg: 'accessToken', type: 'object', root: true,
+      arg: 'success', type: 'object', root: true,
     },
     http: {verb: 'post', path: '/add_to_login'},
   });
