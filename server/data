@@ -1,0 +1,12 @@
+"db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "db1": {
+    "database": "good-bitee",
+    "name": "db1",
+    "connector": "mongodb",
+    "useNewUrlParser": true,
+    "enableGeoIndexing": true,
+    "allowExtendedOperators": true
+  },
