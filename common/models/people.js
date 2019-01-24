@@ -32,21 +32,18 @@ module.exports = function(People) {
     People.app.models.Container.imageUpload(ctx.req, ctx.res,
       {container: 'profileImages'}, function(err, success) {
         if (err) return next(err, null);
-        // success.data
-        if (success) {
-          ctx.req.user = success;
-          next();
-          // success.data = JSON.parse(success.data);
-          // const user = success.data;
-          // if (!user.customerId) {
-          //   if (!user.fullName || !user.mobile ||
-          //     !user.email || !user.password || !user.realm) {
-          //     return next(new Error('Incomplete data is provided'));
-          //   } else {
-          //     ctx.req.user = success;
-          //     next();
-          //   }
-          // }
+        if (success.data) {
+          success.data = JSON.parse(success.data);
+          const user = success.data;
+          if (!user.customerId) {
+            if (!user.fullName || !user.mobile ||
+              !user.email || !user.password || !user.realm) {
+              return next(new Error('Incomplete data is provided'));
+            } else {
+              ctx.req.user = success;
+              next();
+            }
+          }
         } else {
           return next(new Error('data not found'));
         }
@@ -57,8 +54,7 @@ module.exports = function(People) {
   People.signup = (req, res, cb) => {
     let obj = req.user;
     console.log(obj);
-    cb(null, obj);
-    /*let query = {where: {or: []}};
+    let query = {where: {or: []}};
     if (obj.data.email) {
       query.where.or.push({email: obj.data.email});
     }
@@ -168,13 +164,12 @@ module.exports = function(People) {
           }
         }
       }
-    });*/
+    });
   };
 
   People.afterRemote('signup', function(ctx, instance, next) {
     console.log('> user.afterRemote triggered');
-    next();
-    /* let userInstance = instance.success.data;
+    let userInstance = instance.success.data;
     userInstance.addRole(userInstance.realm, function(err, success) {
       if (err) next(new Error(err));
       if (!userInstance.mobileVerified) {
@@ -218,7 +213,7 @@ module.exports = function(People) {
       } else {
         next();
       }
-    });*/
+    });
   });
 
   People.afterRemoteError('signup', function(ctx, next) {
@@ -750,7 +745,7 @@ module.exports = function(People) {
 
   People.afterRemote('editCustomer', function(ctx, user, next) {
     console.log('after edit customer remote');
-    console.log(user);
+    console.log(user.success.data);
     next();
   });
 
