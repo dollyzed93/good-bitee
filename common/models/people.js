@@ -75,7 +75,7 @@ module.exports = function(People) {
               address: obj.data.address,
               addresses: obj.data.addresses || [],
               image: (obj.files && obj.files.image) ?
-              (obj.files && obj.files.image) : '',
+              (obj.files && obj.files.image[0].url) : '',
               createdAt: new Date(),
               updatedAt: new Date(),
             };
