@@ -175,6 +175,13 @@
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "adminApprove"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "editCustomer"
     }
   ],
   "methods": {}

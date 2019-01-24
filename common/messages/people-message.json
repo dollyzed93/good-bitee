@@ -26,5 +26,17 @@
   "login": {
     "replyCode": "success",
     "replyMessage": "login successfully"
+  },
+  "uniqueEmail": {
+    "replyCode": "success",
+    "replyMessage": "successfully done"
+  },
+  "customerEdit": {
+    "replyCode": "success",
+    "replyMessage": "successfully done"
+  },
+  "mobileVerified": {
+    "replyCode": "success",
+    "replyMessage": "successfully done"
   }
 }

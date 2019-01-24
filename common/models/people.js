@@ -3,6 +3,7 @@ const msg = require('../messages/people-message.json');
 const gf = require('../services/global_functions.js');
 const config = require('../../server/config.json');
 const path = require('path');
+var g = require('../../node_modules/loopback/lib/globalize');
 module.exports = function(People) {
   People.disableRemoteMethodByName('login');
   // People.disableRemoteMethodByName('logout');
@@ -21,9 +22,8 @@ module.exports = function(People) {
   People.validatesPresenceOf('mobile', 'email', 'fullName');
   // eslint-disable-next-line max-len
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  People.validatesFormatOf('email',
-    {with: re, message: 'Email is invalid'});
-  People.validatesUniquenessOf('mobile', {message: 'Mobile already exists'});
+  // People.validatesFormatOf('email', {with: re, message: 'Email is invalid'});
+  // People.validatesUniquenessOf('mobile', {message: 'Mobile already exists'});
   People.validatesLengthOf('fullName',
     {min: 1, message: {min: 'Name should be atleast 1 character long'}});
   const g = require('../../node_modules/loopback/lib/globalize');
@@ -54,81 +54,117 @@ module.exports = function(People) {
   People.signup = (req, res, cb) => {
     let obj = req.user;
     console.log(obj);
-    let userdata = {
-      fullName: obj.data.fullName,
-      mobile: obj.data.mobile,
-      email: obj.data.email,
-      password: obj.data.password,
-      realm: obj.data.realm,
-      address: obj.data.address,
-      addresses: obj.data.addresses || [],
-      image: (obj.files && obj.files.image) ?
-      (obj.files && obj.files.image) : '',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    if (obj.data.realm === 'customer') {
-      userdata.adminVerifiedStatus = 'approved';
-      userdata.regPaid = 'released';
+    let query = {where: {or: []}};
+    if (obj.data.email) {
+      query.where.or.push({email: obj.data.email});
     }
-    if (obj.data.realm === 'kitchen') {
-      userdata.kitchenName = obj.data.kitchenName;
-      userdata.description = obj.data.description;
-      userdata.startTime = {
-        value: obj.data.startTime,
-        valueInMinute: gf.convertToMinutes(obj.data.startTime),
-      };
-      userdata.endTime = {
-        value: obj.data.endTime,
-        valueInMinute: gf.convertToMinutes(obj.data.endTime),
-      };
-      userdata.workingDays = obj.data.workingDays;
-      userdata.adminVerifiedStatus = 'pending';
-      userdata.isAvailable = true;
-      userdata.noOfDeliveryBoy = 0;
-      userdata.categoryIds = obj.data.categoryIds;
-      userdata.bankName = obj.data.bankName;
-      userdata.firmName = obj.data.firmName;
-      userdata.ifscCode = obj.data.ifscCode;
-      userdata.accountNumber = obj.data.accountNumber;
-      userdata.kitchenImage = (obj.files && obj.files.kitchenImage) ?
-      (obj.files && obj.files.kitchenImage[0].url) : '';
-      userdata.regPaid = 'hold';
+    if (obj.data.mobile) {
+      query.where.or.push({mobile: obj.data.mobile});
     }
-    // if (obj.data.realm === 'deliveryboy') {
-    //   userdata.isOrderAssigned = false;
-    //   userdata.ktchenId = obj.data.kitchenId;
-    //   userdata.emailVerified = true;
-    //   userdata.mobileVerfied = true;
-    // userdata.adminVerifiedStatus = 'approved';
-    // userdata.regPaid = 'released';
-    // }
-    console.log('data to save : ', userdata);
-    if (obj.data.peopleId) {
-      People.findById(obj.data.peopleId, function(err, peopleInst) {
-        if (err) return cb(err, null);
-        if (!peopleInst) return cb(new Error('No user found'), null);
-        else {
-          peopleInst.updateAttributes(userdata, {validate: true},
-            function(error, success) {
-              if (error) return cb(error, null);
-              else {
-                cb(null, {data: success, msg: msg.profileUpdated});
+    People.find(query, function(err, userInst) {
+      if (err) cb(err, null);
+      else {
+        if (userInst) {
+          if (userInst.length == 0) {
+            let userdata = {
+              fullName: obj.data.fullName,
+              mobile: obj.data.mobile,
+              email: obj.data.email,
+              password: obj.data.password,
+              realm: obj.data.realm,
+              address: obj.data.address,
+              addresses: obj.data.addresses || [],
+              image: (obj.files && obj.files.image) ?
+              (obj.files && obj.files.image) : '',
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            };
+            if (obj.data.realm === 'customer') {
+              userdata.adminVerifiedStatus = 'approved';
+              userdata.regPaid = 'released';
+            }
+            if (obj.data.realm === 'kitchen') {
+              userdata.kitchenName = obj.data.kitchenName;
+              userdata.description = obj.data.description;
+              userdata.startTime = {
+                value: obj.data.startTime,
+                valueInMinute: gf.convertToMinutes(obj.data.startTime),
+              };
+              userdata.endTime = {
+                value: obj.data.endTime,
+                valueInMinute: gf.convertToMinutes(obj.data.endTime),
+              };
+              userdata.workingDays = obj.data.workingDays;
+              userdata.adminVerifiedStatus = 'pending';
+              userdata.isAvailable = true;
+              userdata.noOfDeliveryBoy = 0;
+              userdata.categoryIds = obj.data.categoryIds;
+              userdata.bankName = obj.data.bankName;
+              userdata.firmName = obj.data.firmName;
+              userdata.ifscCode = obj.data.ifscCode;
+              userdata.accountNumber = obj.data.accountNumber;
+              userdata.kitchenImage = (obj.files && obj.files.kitchenImage) ?
+              (obj.files && obj.files.kitchenImage[0].url) : '';
+              userdata.regPaid = 'hold';
+            }
+            console.log('data to save : ', userdata);
+            if (obj.data.peopleId) {
+              People.findById(obj.data.peopleId, function(err, peopleInst) {
+                if (err) return cb(err, null);
+                if (!peopleInst) return cb(new Error('No user found'), null);
+                else {
+                  peopleInst.updateAttributes(userdata, {validate: true},
+                    function(error, success) {
+                      if (error) return cb(error, null);
+                      else {
+                        cb(null, {data: success, msg: msg.profileUpdated});
+                      }
+                    }
+                  );
+                }
+              });
+            } else {
+              People.create(userdata, function(err, userInst) {
+                if (err) {
+                  return cb(err, null);
+                }
+                if (userInst) {
+                  cb(null, {data: userInst, msg: msg.signup});
+                }
+              });
+            }
+          }
+          if (userInst.length == 2) {
+            let err1 = new Error(g.f('Email and Mobile already exists'));
+            err1.statusCode = 422;
+            err1.code = 'EMAIL_MOBILE_ALREADY_EXIST';
+            cb(err1, null);
+          }
+          if (userInst.length == 1) {
+            if (userInst[0].email == obj.data.email &&
+              (userInst[0].mobile == obj.data.mobile)) {
+              let err1 = new Error(g.f('Email and Mobile already exists'));
+              err1.statusCode = 422;
+              err1.code = 'EMAIL_MOBILE_ALREADY_EXIST';
+              cb(err1, null);
+            } else {
+              if (userInst[0].email == obj.data.email) {
+                let err1 = new Error(g.f('Mobile already exists'));
+                err1.statusCode = 422;
+                err1.code = 'EMAIL_ALREADY_EXIST';
+                cb(err1, null);
+              }
+              if (userInst[0].mobile == obj.data.mobile) {
+                let err1 = new Error(g.f('Mobile already exists'));
+                err1.statusCode = 422;
+                err1.code = 'MOBILE_ALREADY_EXIST';
+                cb(err1, null);
               }
             }
-          );
+          }
         }
-      });
-    } else {
-      People.create(userdata, function(err, userInst) {
-        if (err) {
-          return cb(err, null);
-        }
-        if (userInst) {
-          cb(null, {data: userInst, msg: msg.signup});
-        }
-      });
-    }
+      }
+    });
   };
 
   People.afterRemote('signup', function(ctx, instance, next) {
@@ -222,26 +258,33 @@ module.exports = function(People) {
 
   People.beforeRemote('addDeliveryBoy', function(ctx, modelInstance, next) {
     console.log('>triggered before remote add delivery boy');
-    People.app.models.Container.imageUpload(ctx.req, ctx.res,
-      {container: 'profileImages'}, function(err, success) {
-        if (err) return next(err, null);
-        if (success.data) {
-          success.data = JSON.parse(success.data);
-          const user = success.data;
-          if (!user.customerId) {
-            if (!user.fullName || !user.mobile ||
-              !user.email || !user.password || !user.realm) {
-              return next(new Error('Incomplete data is provided'));
-            } else {
-              ctx.req.user = success;
-              next();
+    if (ctx.req.accessToken && ctx.req.accessToken.userId) {
+      People.app.models.Container.imageUpload(ctx.req, ctx.res,
+        {container: 'profileImages'}, function(err, success) {
+          if (err) return next(err, null);
+          if (success.data) {
+            success.data = JSON.parse(success.data);
+            const user = success.data;
+            if (!user.customerId) {
+              if (!user.fullName || !user.mobile ||
+                !user.email || !user.password || !user.realm) {
+                return next(new Error('Incomplete data is provided'));
+              } else {
+                ctx.req.user = success;
+                next();
+              }
             }
+          } else {
+            return next(new Error('data not found'));
           }
-        } else {
-          return next(new Error('data not found'));
         }
-      }
-    );
+      );
+    } else {
+      let err = new Error(g.f('invalid token'));
+      err.statusCode =  400;
+      err.code = 'INVALID_TOKEN';
+      next(err, null);
+    }
   });
 
   People.addDeliveryBoy = function(req, res, cb) {
@@ -263,7 +306,7 @@ module.exports = function(People) {
       isOrderAssigned: false,
       kitchenId: kitchenId,
       emailVerified: true,
-      mobileVerfied: true,
+      mobileVerified: true,
       adminVerifiedStatus: 'approved',
       regPaid: 'released',
     };
@@ -373,12 +416,19 @@ module.exports = function(People) {
   });
 
   People.getMyInfo = function(req, cb) {
-    let peopleId = req.accessToken.userId;
-    let filter = {};
-    People.findById(peopleId, filter, function(err, success) {
-      if (err) return cb(err, null);
-      cb(null, {data: success, msg: msg.getMyInfo});
-    });
+    if (req.accessToken && req.accessToken.userId) {
+      let peopleId = req.accessToken.userId;
+      let filter = {};
+      People.findById(peopleId, filter, function(err, success) {
+        if (err) return cb(err, null);
+        cb(null, {data: success, msg: msg.getMyInfo});
+      });
+    } else {
+      let err = new Error(g.f('invalid token'));
+      err.statusCode =  400;
+      err.code = 'INVALID_TOKEN';
+      cb(err, null);
+    }
   };
 
   People.remoteMethod('getMyInfo', {
@@ -387,6 +437,17 @@ module.exports = function(People) {
     ],
     returns: {arg: 'success', type: 'object'},
     http: {verb: 'get', description: 'to get the profile'},
+  });
+
+  People.beforeRemote('uploadProfilePic', function(ctx, modelInstance, next) {
+    if (ctx.req.accessToken && ctx.req.accessToken.userId) {
+      next();
+    } else {
+      let err = new Error(g.f('invalid token'));
+      err.statusCode =  400;
+      err.code = 'INVALID_TOKEN';
+      next(err, null);
+    }
   });
 
   People.uploadProfilePic = function(req, res, cb) {
@@ -428,6 +489,17 @@ module.exports = function(People) {
       {arg: 'res', type: 'object', http: {source: 'res'}},
     ],
     returns: {arg: 'success', type: 'object'},
+  });
+
+  People.beforeRemote('manageAddress', function(ctx, modelInstance, next) {
+    if (ctx.req.accessToken && ctx.req.accessToken.userId) {
+      next();
+    } else {
+      let err = new Error(g.f('invalid token'));
+      err.statusCode =  400;
+      err.code = 'INVALID_TOKEN';
+      next(err, null);
+    }
   });
 
   People.manageAddress = function(req, addresses, cb) {
@@ -538,6 +610,204 @@ module.exports = function(People) {
   //   returns: {arg: 'success', type: 'object'},
   //   http: {verb: 'post', path: '/log_out'},
   // });
+
+  People.uniqueEmail = function(email, cb) {
+    People.find({email: email}, function(err, userInst) {
+      if (err) cb(err, null);
+      else {
+        if (userInst) {
+          cb(null, {data: {exists: true}, msg: msg.uniqueEmail});
+        } else {
+          cb(null, {data: {exists: false}, msg: msg.uniqueEmail});
+        }
+      }
+    });
+  };
+
+  People.remoteMethod('uniqueEmail', {
+    description: 'to check if email is unique',
+    accepts: [
+      {arg: 'email', type: 'string', required: true},
+    ],
+    returns: {arg: 'success', type: 'object'},
+    http: {path: '/unique_email', verb: 'get'},
+  });
+
+  People.uniqueMobile = function(mobile, cb) {
+    People.find({mobile: mobile}, function(err, userInst) {
+      if (err) cb(err, null);
+      else {
+        if (userInst) {
+          cb(null, {data: {exists: true}, msg: msg.uniqueEmail});
+        } else {
+          cb(null, {data: {exists: false}, msg: msg.uniqueEmail});
+        }
+      }
+    });
+  };
+
+  People.remoteMethod('uniqueMobile', {
+    description: 'to check if mobile is unique',
+    accepts: [
+      {arg: 'mobile', type: 'string', required: true},
+    ],
+    returns: {arg: 'success', type: 'object'},
+    http: {path: '/unique_mobile', verb: 'get'},
+  });
+
+  People.beforeRemote('editCustomer', function(ctx, modelInstance, next) {
+    console.log(ctx.args);
+    if (ctx.req.accessToken && ctx.req.accessToken.userId) {
+      let query = {where: {or: []}};
+      if (ctx.args.email) {
+        query.where.or.push({email: ctx.args.email});
+      }
+      if (ctx.args.mobile) {
+        query.where.or.push({mobile: ctx.args.mobile});
+      }
+      People.find(query, function(err, userInst) {
+        if (err) next(new Error(err), null);
+        else {
+          if (userInst) {
+            if (userInst.length == 0) {
+              next();
+            }
+            if (userInst.length == 2) {
+              let err1 = new Error(g.f('Email and Mobile already exists'));
+              err1.statusCode = 422;
+              err1.code = 'EMAIL_MOBILE_ALREADY_EXIST';
+              next(err1, null);
+            }
+            if (userInst.length == 1) {
+              if (userInst[0].email == ctx.args.email &&
+                (userInst[0].mobile == ctx.args.mobile)) {
+                let err1 = new Error(g.f('Email and Mobile already exists'));
+                err1.statusCode = 422;
+                err1.code = 'EMAIL_MOBILE_ALREADY_EXIST';
+                next(err1, null);
+              } else {
+                if (userInst[0].email == ctx.args.email) {
+                  let err1 = new Error(g.f('Email already exists'));
+                  err1.statusCode = 422;
+                  err1.code = 'EMAIL_ALREADY_EXIST';
+                  next(err1, null);
+                }
+                if (userInst[0].mobile == ctx.args.mobile) {
+                  let err1 = new Error(g.f('Mobile already exists'));
+                  err1.statusCode = 422;
+                  err1.code = 'MOBILE_ALREADY_EXIST';
+                  next(err1, null);
+                }
+              }
+            }
+          }
+        }
+      });
+    } else {
+      let err = new Error(g.f('invalid token'));
+      err.statusCode =  400;
+      err.code = 'INVALID_TOKEN';
+      next(err, null);
+    }
+  });
+
+  People.editCustomer = function(req, fullName, mobile, email, cb) {
+    const peopleId = req.accessToken.userId;
+    let data = {};
+    if (fullName) {
+      data.fullName = fullName.trim();
+    }
+    if (mobile) {
+      data.mobile = mobile.trim();
+    }
+    if (email) {
+      data.email = email.trim();
+    }
+    People.findById(peopleId, function(err, peopleInst) {
+      if (err) cb(err, null);
+      else {
+        if (peopleInst) {
+          peopleInst.updateAttributes(data, function(error, success) {
+            if (error) cb(error, null);
+            if (success) {
+              cb(null, {data: success, msg: msg.customerEdit});
+            }
+          });
+        } else {
+          let err1 = new Error(g.f('Account does not exist'));
+          err1.statusCode = 400;
+          err1.code = 'ACCOUNT_DOES_NOT_EXIST';
+          cb(err1, null);
+        }
+      }
+    });
+  };
+
+  People.afterRemote('editCustomer', function(ctx, user, next) {
+    console.log('after edit customer remote');
+    console.log(user);
+    next();
+  });
+
+  People.remoteMethod('editCustomer', {
+    description: 'edit customer',
+    accepts: [
+      {arg: 'req', type: 'object', http: {source: 'req'}},
+      {arg: 'fullName', type: 'string', http: {source: 'form'}},
+      {arg: 'mobile', type: 'string', http: {source: 'form'}},
+      {arg: 'email', type: 'string', http: {source: 'form'}},
+    ],
+    returns: {
+      arg: 'success', type: 'object',
+    },
+    http: {verb: 'post', path: '/edit_customer'},
+  });
+
+  People.verifyotp = function(peopleId, otp, cb) {
+    People.findById(peopleId, function(err, peopleInst) {
+      if (err) cb(err, null);
+      if (peopleInst) {
+        const dtn = new Date();
+        if (peopleInst.mobOtp.otp == otp) {
+          if (peopleInst.mobOtp.expiredAt > dtn) {
+            let err1 = new Error(g.f('Otp got expired'));
+            err1.statusCode = 400;
+            err1.code = 'OTP_EXPIRED';
+            cb(err1, null);
+          } else {
+            peopleInst.mobileVerified = true;
+            peopleInst.mobOtp = {};
+            peopleInst.save(function(error, success) {
+              if (error) cb(error, null);
+              if (success) {
+                cb(null, {data: success, msg: msg.mobileVerified});
+              }
+            });
+          }
+        } else {
+          let err1 = new Error(g.f('Otp does not match'));
+          err1.statusCode = 400;
+          err1.code = 'OTP_DOES_NOT_MATCH';
+          cb(err1, null);
+        }
+      } else {
+        let err1 = new Error(g.f('Account does not exist'));
+        err1.statusCode = 400;
+        err1.code = 'ACCOUNT_DOES_NOT_EXIST';
+        cb(err1, null);
+      }
+    });
+  };
+
+  People.remoteMethod('verifyotp', {
+    description: 'To verify mobile number',
+    accepts: [
+      {arg: 'peopleId', type: 'string', required: true, http: {source: 'form'}},
+      {arg: 'otp', type: 'number', required: true, http: {source: 'form'}},
+    ],
+    returns: {arg: 'success', type: 'object'},
+    http: {verb: 'post', path: '/verfiy_otp'},
+  });
 
   People.afterRemote('**', function(ctx, user, next) {
     if (ctx.result) {
