@@ -6,60 +6,9 @@
     "validateUpsert": true
   },
   "properties": {
-    "address": {
-      "type": "object",
-      "required": true
-    },
-    "totalPrice": {
-      "type": "number",
-      "required": true
-    },
-    "instructions": {
-      "type": "string"
-    },
-    "waitingtime": {
-      "type": "string"
-    },
-    "orderId": {
-      "type": "string",
-      "default": ""
-    },
-    "modeOfPayment": {
-      "type": "string",
-      "enum": [
-        "cod",
-        "debit/credit",
-        "netbanking"
-      ]
-    }
   },
   "validations": [],
   "relations": {
-    "customer": {
-      "type": "belongsTo",
-      "model": "People",
-      "foreignKey": "customerId"
-    },
-    "kitchen": {
-      "type": "belongsTo",
-      "model": "People",
-      "foreignKey": "kitchenId"
-    },
-    "deliveryboy": {
-      "type": "belongsTo",
-      "model": "People",
-      "foreignKey": "deliveryboyId"
-    },
-    "category": {
-      "type": "belongsTo",
-      "model": "Categories",
-      "foreignKey": "categoryId"
-    },
-    "mealType": {
-      "type": "belongsTo",
-      "model": "MealType",
-      "foreignKey": "mealTypeId"
-    }
   },
   "acls": [],
   "methods": {}
