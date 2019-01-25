@@ -6,7 +6,6 @@ const path = require('path');
 var g = require('../../node_modules/loopback/lib/globalize');
 module.exports = function(People) {
   People.disableRemoteMethodByName('login');
-  // People.disableRemoteMethodByName('logout');
   People.disableRemoteMethodByName('confirm');
   People.disableRemoteMethodByName('changePassword');
   People.disableRemoteMethodByName('resetPassword');
@@ -822,35 +821,3 @@ module.exports = function(People) {
     next();
   });
 };
-/* function uploadFile() {
-      People.app.models.Container.imageUpload(req, res,
-        {container: 'profileImages'}, (err, success) => {
-          if (err) cb(err, null);
-          else {
-            if (success.data) {
-              success.data = JSON.parse(success.data);
-              createUser(success);
-            } else {
-              cb(new Error('please provide required data'), null);
-            }
-          }
-        });
-    }
-
-    function createUser(obj) {
-      let data = {
-        realm: obj.data.realm,
-        fullName: obj.data.fullName,
-        mobile: obj.data.mobile,
-        email: obj.data.email,
-        password: obj.data.password,
-        isProfileComplete: true,
-      };
-      if (obj.data.realm === 'customer') {
-      }
-      if (obj.data.realm === 'kitchen') {
-
-      }
-      if (obj.data.realm === 'vehicle') {
-
-      } */

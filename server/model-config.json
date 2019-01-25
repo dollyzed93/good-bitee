@@ -65,19 +65,7 @@
     "dataSource": "db1",
     "public": true
   },
-  "Wallet": {
-    "dataSource": "db1",
-    "public": true
-  },
-  "Transaction": {
-    "dataSource": "db1",
-    "public": true
-  },
   "MealType": {
-    "dataSource": "db1",
-    "public": true
-  },
-  "Order": {
     "dataSource": "db1",
     "public": true
   }
